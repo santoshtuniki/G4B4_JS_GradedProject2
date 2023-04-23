@@ -11,77 +11,94 @@
 </head>
 
 <body>
-	<section class="navigate">
-		<button id="previous">previous</button>
-		<input type="text" name="search" id="search-box" placeholder="search for keywords to filter for results">
-		<button id="next">next</button>
-	</section>
-	<section id="resume-template">
-		<header>
-			<h1 id="name"> pravin </h1>
-			<p>Applied for: <span id="postion"> position </span> </p>
-		</header>
-		<div id="flexbox">
-			<div id="part-1">
-				<h4>Personal Information</h4>
-				<div id="info">
-					<p id="phone-number">9999999999</p>
-					<a id="gmail" href="#">gmail</a><br><br>
-					<a id="linkedin" href="#">linkedin</a>
+
+	<div id="resume">
+		<section class="navigate">
+			<button id="previous">previous</button>
+			<input type="text" name="search" id="search-box" placeholder="search for keywords to filter for results">
+			<button id="next">next</button>
+		</section>
+
+		<section id="error-container">
+			<p id="error-message">No Match found <br> Clear the search box and press Enter key to go back</p>
+		</section>
+
+		<section id="resume-template">
+			<header>
+				<h1 id="name"> pravin </h1>
+				<p>Applied for: <span id="postion"> position </span> </p>
+			</header>
+
+			<div id="flexbox">
+				<div id="part-1">
+					<h4>Personal Information</h4>
+					<div id="info">
+						<p id="phone-number">9999999999</p>
+						<a id="gmail" href="#">gmail</a>
+						<a id="linkedin" href="#">linkedin</a>
+					</div>
+
+					<h4>Technical skills</h4>
+					<div id="skills">
+						<p>display skills here</p>
+					</div>
+
+					<h4>Hobbies</h4>
+					<div id="hobbies">
+						<p id="hobbies">enter hobbies here </p>
+					</div>
 				</div>
 
-				<h4>Technical skills</h4>
-				<div id="skills">
-					<p>display skills here</p>
-				</div>
+				<div id="part-2">
+					<div id="work-experience">
+						<h1>Work Experience in previous company</h1>
+						<p><b>Company Name: </b><span id="company-name">company name here</span></p>
+						<p><b>Position: </b><span id="position">postion</span></p>
+						<p><b>Start Date: </b><span id="start-date">datre</span></p>
+						<p><b>End Date: </b><span id="end-date"></span></p>
+						<p><b>Summary: </b><span id="summary"></span></p>
 
-				<h4>Hobbies</h4>
-				<div id="hobbies">
-					<p id="hobbies">enter hobbies here </p>
+						<div id="projects">
+							<h1>Projects</h1>
+							<p>
+								<b id="project-name">project name: </b>
+								<b><span></span></b>
+								<span id="project-description"></span>
+							</p>
+						</div>
+
+						<div id="Education">
+							<h1>Education</h1>
+							<ul>
+								<li><b>UG: </b><span id="UG">ug info</span></li>
+								<li><b>Senior Secondary: </b><span id="SS">SS info</span></li>
+								<li><b>High School: </b><span id="HS"> hs info</span></li>
+							</ul>
+						</div>
+
+						<div id="internshpis">
+							<h1>Internships</h1>
+							<ul>
+								<li><b>Company name: </b><span id="internship-company-name">company info</span></li>
+								<li><b>Position: </b><span id="internship-position">position info</span></li>
+								<li><b>Start Date: </b><span id="internship-start-date"> date</span></li>
+								<li><b>End Date: </b><span id="internship-end-date"> date</span></li>
+								<li><b>Summary: </b><span id="internship-summary">summary</span></li>
+							</ul>
+						</div>
+
+						<div id="achievements">
+							<h1>Achievements</h1>
+							<ul>
+								<li id="achievement-summary">achive summary here</li>
+							</ul>
+						</div>
+					</div>
 				</div>
 			</div>
+		</section>
+	</div>
 
-			<div id="part-2">
-				<div id="work-experience">
-					<h1>Work Experience in previous company</h1>
-					<p><b>Company Name: </b><span id="company-name">company name here</span></p>
-					<p><b>Position:</b><span id="position">postion</span></p>
-					<p><b>Start Date:</b><span id="start-date">datre</span></p>
-					<p><b>End Date:</b><span id="end-date"></span></p>
-					<p align="justify"><b>Summary:</b><span id="summary"></span></p>
-					<div id="projects">
-						<h1>Projects</h1>
-						<p align="justify"><b id="project-name">project name:</b><b><span>: </span></b><span
-								id="project-description"></span></p>
-					</div>
-					<div id="Education">
-						<h1>Education</h1>
-						<ul>
-							<li>UG: <span id="UG">ug info</span></li>
-							<li>Senior Secondary: <span id="SS">SS info</span></li>
-							<li>High School: <span id="HS"> hs info</span></li>
-						</ul>
-					</div>
-					<div id="internshpis">
-						<h1>Internships</h1>
-						<ul>
-							<li><b>Company name: </b><span id="internship-company-name">company info</span></li>
-							<li><b>Position: </b><span id="internship-position">position info</span></li>
-							<li><b>Start Date: </b><span id="internship-start-date"> date</span></li>
-							<li><b>End Date: </b><span id="internship-end-date"> date</span></li>
-							<li><b>Summary: </b><span id="internship-summary">summary</span></li>
-						</ul>
-					</div>
-					<div id="achievements">
-						<h1>Achievements</h1>
-						<ul>
-							<li id="achievement-summary">achive summary here</li>
-						</ul>
-					</div>
-				</div>
-			</div>
-
-	</section>
 	<script src="resume.js"></script>
 </body>
 

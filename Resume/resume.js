@@ -1,31 +1,29 @@
 //fetching data
-const data = fetch('./Data.json')
+const data = fetch('./data.json')
 	.then((response) => response.json())
-	.then((json) => {
-		console.log(json)
-		return json
-	}
-	);
-console.log(data);
+	.then((json) => { return json });
 
 //id variable is used as a pointer to iterate through idArray
 let id = 0;
 
-//idArray arrray variable is used to store the id of all the reume objects and idArray changes as we search for a specific job 
-//when searched for a job idArray includes only the ids of objects that have the same job
+//idArray array variable is used to store the id of all the reume objects and when searched for a job idArray includes only the ids of objects that have the same job
 let idArray = [];
 
+// identifiers
+const nextButton = document.getElementById("next");
+const previousButton = document.getElementById("previous");
+const searchBox = document.getElementById("search-box");
+
 //search functinality
-const search = document.getElementById("search-box");
-search.addEventListener("input", inputResponse);
+searchBox.addEventListener("keypress", intermideateResponse);
 
 //next fnctonality
-const next = document.getElementById("next");
-next.addEventListener('click', getNextResume);
+nextButton.addEventListener('click', getNextResume);
 
 //previous functionality
-const previous = document.getElementById("previous");
-previous.addEventListener('click', getPreviousResume);
+previousButton.addEventListener('click', getPreviousResume);
+
+start();
 
 function start() {
 	data.then(function (result) {
@@ -38,22 +36,23 @@ function start() {
 	});
 }
 
-start();
-
+// button functions
 function hideNextButton() {
-	document.getElementById("next").style.display = "none";
+	nextButton.style.display = "none";
 }
 
 function hidePreviousButton() {
-	document.getElementById("previous").style.display = "none";
+	previousButton.style.display = "none";
+	searchBox.style.marginLeft = "35%";
 }
 
 function showNextButton() {
-	document.getElementById("next").style.display = "block";
+	nextButton.style.display = "block";
 }
 
 function showPreviousButtton() {
-	document.getElementById("previous").style.display = "block";
+	previousButton.style.display = "block";
+	searchBox.style.marginLeft = "2%";
 }
 
 function getPreviousResume() {
@@ -63,7 +62,6 @@ function getPreviousResume() {
 	if (id < (idArray.length - 1)) showNextButton();
 }
 
-
 function getNextResume() {
 	id++;
 	writeDataIntoIndexhtml(idArray[id]);
@@ -72,7 +70,6 @@ function getNextResume() {
 }
 
 //the data promise is resolved so we can use "then" method/function ? on it to manipulate data
-
 function resetId() {
 	console.log("reset id start");
 	id = 0;
@@ -93,17 +90,42 @@ function resetIdArray() {
 	console.log("reset idArray stop");
 };
 
-function inputResponse() {
-	console.log(search.value);
-	console.log(search.value == "");
-	if (search.value == "") {
+function hideResumeTemplate() {
+	document.getElementById('resume-template').style.display = "none";
+};
+
+function showResumeTemplate() {
+	document.getElementById('resume-template').style.display = "block";
+}
+
+function hideErrorMessage() {
+	document.getElementById('error-message').style.display = "none";
+}
+
+function showErrorMessage() {
+	document.getElementById('error-message').style.display = "block";
+}
+
+function intermideateResponse(e) {
+	if (e.keyCode === 13) {
+		inputResponse(searchBox.value);
+	}
+}
+
+function inputResponse(e) {
+	//console.log(e);
+	//console.log(searchBox.value)
+	if (searchBox.value == "") {
+		hidePreviousButton();
+		hideErrorMessage();
+		showResumeTemplate();
 		showNextButton();
 		resetId();
 		resetIdArray();
 		writeDataIntoIndexhtml(id);
 	}
 	else {
-		let input = search.value;
+		let input = searchBox.value;
 		data.then(function (result) {
 			let objArray = result.resume;
 			idArray.length = 0;
@@ -112,14 +134,17 @@ function inputResponse() {
 					idArray.push(objArray[element].id - 1);
 				}
 			}
+
 			if (idArray.length == 0) {
-				console.log("no matching element found");
+				hideResumeTemplate();
+				showErrorMessage();
 				hideNextButton();
 				hidePreviousButton();
 			}
 			else {
 				console.log(idArray.length == 1)
 				if (idArray.length == 1) {
+					//hideErrorMessage();
 					hideNextButton();
 					hidePreviousButton();
 					resetId();
@@ -127,10 +152,12 @@ function inputResponse() {
 				}
 				else {
 					resetId();
+					hideErrorMessage();
 					writeDataIntoIndexhtml(idArray[id]);
 					showNextButton();
 				}
 			}
+
 		})
 	}
 };
@@ -138,126 +165,63 @@ function inputResponse() {
 function writeDataIntoIndexhtml(id) {
 	console.log("upload started");
 	data.then(function (result) {
-		let objArray = result.resume;
+		const objArray = result.resume;
+		const obj = objArray[id];
 
-		document.getElementById("name").innerText = objArray[id].basics.name;
-		document.getElementById("postion").innerText = objArray[id].basics.AppliedFor;
-		document.getElementById("phone-number").innerText = objArray[id].basics.phone;
-		document.getElementById("gmail").innerText = objArray[id].basics.email;
-		document.getElementById("linkedin").innerText = objArray[id].basics.profiles.url;
+		document.getElementById("name").innerText = obj.basics.name;
+		document.getElementById("postion").innerText = obj.basics.AppliedFor;
+		document.getElementById("phone-number").innerText = obj.basics.phone;
+		document.getElementById("gmail").innerText = obj.basics.email;
+		document.getElementById("linkedin").innerText = obj.basics.profiles.url;
 
 		// Inserting technical skills array
-		let skillsArray = objArray[id].skills.keywords;
+		let skillsArray = obj.skills.keywords;
 		let str = skillsArray.join('<br>');
 		let templateString = `<p>  ${str} </p>`;
 		document.getElementById("skills").innerHTML = templateString;
 
 		// Now inserting hobbies the same way
-		let hobbiesArray = objArray[id].interests.hobbies;
+		let hobbiesArray = obj.interests.hobbies;
 		let hobbiesString = hobbiesArray.join('<br>');
 		let hobbiesInnerHtml = `<p> ${hobbiesString} </p>`
 		document.getElementById("hobbies").innerHTML = hobbiesInnerHtml;
 
 		// Starting to fill part-2
-		document.getElementById("company-name").innerText = objArray[id].work["Company Name"];
-		document.getElementById("position").innerText = objArray[id].work.Position;
-		document.getElementById("start-date").innerText = objArray[id].work["Start Date"];
-		document.getElementById("end-date").innerText = objArray[id].work["End Date"];
-		document.getElementById("summary").innerText = objArray[id].work.Summary;
+		document.getElementById("company-name").innerText = obj.work["Company Name"];
+		document.getElementById("position").innerText = obj.work.Position;
+		document.getElementById("start-date").innerText = obj.work["Start Date"];
+		document.getElementById("end-date").innerText = obj.work["End Date"];
+		document.getElementById("summary").innerText = obj.work.Summary;
 
 		// Filling Projects
-		document.getElementById("project-name").innerText = objArray[id].projects.name;
-		document.getElementById("project-description").innerText = objArray[id].projects.description;
+		document.getElementById("project-name").innerText = obj.projects.name;
+		document.getElementById("project-description").innerText = obj.projects.description;
 
 		// Education
-		let ugObject = objArray[id].education.UG;
+		let ugObject = obj.education.UG;
 		let ugArray = Object.values(ugObject);
 		let stringOfUgArray = ugArray.join(', ');
 		document.getElementById("UG").innerText = stringOfUgArray;
 
-		let ssObject = objArray[id].education["Senior Secondary"];
+		let ssObject = obj.education["Senior Secondary"];
 		let ssArray = Object.values(ssObject);
 		let stringOfSsArray = ssArray.join(', ');
 		document.getElementById("SS").innerText = stringOfSsArray;
 
-		let highSchoolObject = objArray[id].education["High School"];
+		let highSchoolObject = obj.education["High School"];
 		let highSchoolArray = Object.values(highSchoolObject);
 		let stringOfHighSchoolArray = highSchoolArray.join(', ');
 		document.getElementById("HS").innerText = stringOfHighSchoolArray;
 
-		document.getElementById("internship-company-name").innerText = objArray[id].Internship["Company Name"];
-		document.getElementById("internship-position").innerText = objArray[id].Internship["Position"];
-		document.getElementById("internship-start-date").innerText = objArray[id].Internship["Start Date"];
-		document.getElementById("internship-end-date").innerText = objArray[id].Internship["End Date"];
-		document.getElementById("internship-summary").innerText = objArray[id].Internship["Summary"];
+		document.getElementById("internship-company-name").innerText = obj.Internship["Company Name"];
+		document.getElementById("internship-position").innerText = obj.Internship["Position"];
+		document.getElementById("internship-start-date").innerText = obj.Internship["Start Date"];
+		document.getElementById("internship-end-date").innerText = obj.Internship["End Date"];
+		document.getElementById("internship-summary").innerText = obj.Internship["Summary"];
 
 		// Achievements
-		document.getElementById("achievement-summary").innerText = objArray[id].achievements.Summary;
+		document.getElementById("achievement-summary").innerText = obj.achievements.Summary;
 
 		console.log("upload finished");
 	});
 };
-
-
-// function writeDataIntoIndexhtml(ida){
-//     console.log("upload started")
-//     data.then(function(result){
-//         let objArray = result.resume;
-
-//         document.getElementById("name").innerText = objArray[ida].basics.name;
-//         document.getElementById("postion").innerText = objArray[ida].basics.AppliedFor;
-//         document.getElementById("phone-number").innerText = objArray[ida].basics.phone;
-//         document.getElementById("gmail").innerText = objArray[ida].basics.email;
-//         document.getElementById("linkedin").innerText = objArray[ida].basics.profiles.url;
-
-//         //inserting techinacal skills array
-//         let skillsArray = objArray[ida].skills.keywords;
-//         let str = skillsArray.join('<br>');
-//         let templateString = `<p>  ${str} </p>`;
-//         document.getElementById("skills").innerHTML = templateString;
-
-//         //now inserting hobbies the same way
-//         let hobbiesArray = objArray[ida].interests.hobbies;
-//         let hobbiesString = hobbiesArray.join('<br>');
-//         let hobbiesInnerHtml = `<p> ${hobbiesString} </p>`
-//         document.getElementById("hobbies").innerHTML = hobbiesInnerHtml;
-
-//         //starting to fill part-2
-//         document.getElementById("company-name").innerText = objArray[ida].work["Company Name"];
-//         document.getElementById("position").innerText = objArray[ida].work.Position;
-//         document.getElementById("start-date").innerText = objArray[ida].work["Start Date"];
-//         document.getElementById("end-date").innerText = objArray[ida].work["End Date"];
-//         document.getElementById("summary").innerText = objArray[ida].work.Summary;
-
-//         //filling Projects
-//         document.getElementById("project-name").innerText = objArray[ida].projects.name;
-//         document.getElementById("project-description").innerText = objArray[ida].projects.description;
-
-//         //education
-//         let ugObject = objArray[ida].education.UG;
-//         let ugArray = Object.values(ugObject);
-//         let stringOfUgArray = ugArray.join(', ');
-//         document.getElementById("UG").innerText = stringOfUgArray;
-
-//         let ssObject = objArray[ida].education["Senior Secondary"];
-//         let ssArray = Object.values(ssObject);
-//         let stringOfSsArray = ssArray.join(', ');
-//         document.getElementById("SS").innerText = stringOfSsArray;
-
-//         let highSchoolObject = objArray[ida].education["High School"];
-//         let highSchoolArray = Object.values(highSchoolObject);
-//         let stringOfHighSchoolArray = highSchoolArray.join(', ');
-//         document.getElementById("HS").innerText = stringOfHighSchoolArray;
-
-//         document.getElementById("internship-company-name").innerText = objArray[ida].Internship["Company Name"];
-//         document.getElementById("internship-position").innerText = objArray[ida].Internship["Position"];
-//         document.getElementById("internship-start-date").innerText = objArray[ida].Internship["Start Date"];
-//         document.getElementById("internship-end-date").innerText = objArray[ida].Internship["End Date"];
-//         document.getElementById("internship-summary").innerText = objArray[ida].Internship["Summary"];
-
-//         //achievemetns
-//         document.getElementById("achievement-summary").innerText = objArray[ida].achievements.Summary;
-
-//         console.log("upload finished");
-//     })
-// };
