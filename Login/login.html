@@ -1,29 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Login Page</title>
 
-		<link rel="stylesheet" href="login.css">
-		<script>
-			function disableBack() {
-				window.history.forward();
-			}
-			setTimeout("disableBack()", 0);
-			window.onunload = function () { null };
-		</script>
-	</head>
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Login Page</title>
 
-	<body>
-		<form id="login-form" method="post" action="../Resume/resume.html">
-			<p id="message"></p>
-			<input type="text" name="username" id="username" placeholder="User Name" required>
-			<input type="password" name="pswd" id="password" placeholder="Password" minlength="8" required>
-			<input type="submit" id="submit" value="Login">
-		</form>
+	<link rel="stylesheet" href="login.css">
+	<script>
+		function disableBack() {
+			window.history.forward();
+		}
+		setTimeout("disableBack()", 0);
+		window.onunload = function () { null };
+	</script>
+</head>
 
-		<script src="login.js"></script>
-	</body>
+<body>
+	<form id="login-form" action="../Resume/resume.html">
+		<p id="message"></p>
+		<input type="text" name="username" id="username" placeholder="User Name" required />
+		<input type="password" name="pswd" id="password" placeholder="Password" minlength="8" required />
+		<input type="submit" id="submit" value="Login" />
+	</form>
+
+	<script src="login.js"></script>
+</body>
+
 </html>
