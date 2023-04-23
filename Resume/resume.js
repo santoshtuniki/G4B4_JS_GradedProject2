@@ -99,11 +99,11 @@ function showResumeTemplate() {
 }
 
 function hideErrorMessage() {
-	document.getElementById('error-message').style.display = "none";
+	document.getElementById('error-container').style.display = "none";
 }
 
 function showErrorMessage() {
-	document.getElementById('error-message').style.display = "block";
+	document.getElementById('error-container').style.display = "block";
 }
 
 function intermideateResponse(e) {

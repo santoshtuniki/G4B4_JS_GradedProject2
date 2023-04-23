@@ -35,21 +35,40 @@ body {
 	margin-left: 2%;
 }
 
-/* error-container section */
-#error-container {
-	margin: auto;
+.icon {
+	height: 70px;
+	width: 70px;
 }
 
-#error-message {
+/* error-container section */
+#error-container {
+	margin: 90px auto;
+	height: 130px;
 	display: none;
 	text-align: center;
+	position: relative;
 }
+
+#error-container .icon {
+	height: 100px;
+	width: 100px;
+	position: absolute;
+	left: 28%;
+}
+
+#error-container span {
+	display: inline-block;
+	font-size: 25px;
+	margin-top: 18px;
+	margin-left: 175px;
+	text-align: center;
+}
+
 
 /* resume-template section */
 #resume-template {
 	width: 80%;
 	margin: 0 10%;
-	height: 1200px;
 	padding: 0px;
 	border: 3px solid black;
 }
@@ -60,6 +79,13 @@ header {
 	background-color: #d1f6f0;
 	padding: 10px;
 	margin: 0px;
+	position: relative;
+}
+
+header .icon {
+	position: absolute;
+	top: 20px;
+	right: 10%;
 }
 
 header p {
